@@ -4,9 +4,12 @@ from selenium.webdriver.common.by import By
 
 driver = webdriver.Chrome()
 
-driver.get('http://the-internet.herokuapp.com/inputs')
+driver.get('http://the-internet.herokuapp.com/login')
 
-field = driver.find_element(By.TAG_NAME, 'input')
-field.send_keys('1000')
-field.clear()
-field.send_keys('999')
+username_field = driver.find_element(By.ID, 'username')
+password_field = driver.find_element(By.ID, 'password')
+login_button = driver.find_element(By.CSS_SELECTOR, '[type="submit"]')
+
+username_field.send_keys('tomsmith')
+password_field.send_keys('SuperSecretPassword')
+login_button.click()

@@ -1,14 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 
 driver = webdriver.Chrome()
 
-driver.get('http://the-internet.herokuapp.com/add_remove_elements/')
+driver.get('http://the-internet.herokuapp.com/entry_ad')
 
-add_element_button = driver.find_element(By.TAG_NAME, 'button')
-for i in range(5):
-    add_element_button.click()
-
-delete_buttons = driver.find_elements(By.CLASS_NAME, 'added-manually')
-print(len(delete_buttons))
+close_button = WebDriverWait(driver, 5).until(ec.element_to_be_clickable((By.CSS_SELECTOR, '.modal-footer p')))
+close_button.click()

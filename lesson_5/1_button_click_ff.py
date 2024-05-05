@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 
 driver.get('http://the-internet.herokuapp.com/add_remove_elements/')
 
@@ -12,3 +12,5 @@ for i in range(5):
 
 delete_buttons = driver.find_elements(By.CLASS_NAME, 'added-manually')
 print(len(delete_buttons))
+
+driver.quit()

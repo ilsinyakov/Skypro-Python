@@ -1,0 +1,7 @@
+Локатор логотипа (html-елемент, содержащий в себе значок и слово "авиасейлс") - CSS: [href="/"]
+Локатор поля Откуда - CSS: [placeholder="Откуда"]
+Локатор поля Куда - CSS: [placeholder="Куда"]
+Локатор поля Когда - CSS: [data-test-id="start-date-field"]
+Локатор поля Обратно - CSS: [data-test-id="end-date-field"]
+Локатор чек-бокса "Открыть Ostrovok.ru в новой вкладке" - CSS: [data-test-id="booking-checkbox"]
+Локатор кнопки Найти билеты - CSS: [data-test-id="form-submit"]
