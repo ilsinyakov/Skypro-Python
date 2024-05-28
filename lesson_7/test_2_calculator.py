@@ -17,5 +17,5 @@ def test_calculator():
     sleep(2)
     main_page.click_button('=')
     sleep(2)
-    # assert driver.find_element(By.CLASS_NAME, 'screen').text == '15', \
-    #     'Result is not 15'
+    result = page.get_result()
+    assert result == '15', 'Result is not 15'
