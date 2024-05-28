@@ -14,12 +14,4 @@ class MainPageShop:
 
         login_button = self.browser.find_element(By.ID, 'login-button')
         login_button.click()
-
     
-
-   
-
-    
-
-    total_element = self.browser.find_element(By.CSS_SELECTOR, '[data-test="total-label"]')
-    total = total_element.text
