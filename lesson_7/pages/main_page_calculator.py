@@ -14,7 +14,7 @@ class MainPageCalculator:
 
     def get_result(self):
         # increased wait from 45 to 47
-        WebDriverWait(driver, 47).until(
+        WebDriverWait(self.browser, 47).until(
             ec.text_to_be_present_in_element((By.CLASS_NAME, 'screen'), '15')
             )
         return self.browser.find_element(By.CLASS_NAME, 'screen').text           
