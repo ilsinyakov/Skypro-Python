@@ -47,9 +47,9 @@ class MainPageForm:
     def is_fields_green(self):
         is_true = False
         fields = self.browser.find_elements(By.XPATH, '//*[@id and not (@id="zip-code")]')
-        for field in fields:
+        for field in fields:            
             if field.value_of_css_property('background-color') == 'rgba(209, 231, 221, 1)':
-                is_True = True
+                is_true = True
             else:
                 is_true = False
                 return is_true
