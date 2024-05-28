@@ -14,7 +14,7 @@ class MainPageCalculator:
         delay_field.send_keys(delay)
 
     def click_button(self, sym):
-        button = self.browser.find_element(By.XPATH, f'//*[contains(text(),{sym})]')
+        button = self.browser.find_element(By.XPATH, f'//*[contains(text(),"{sym}")]')
         button.click()
 
     # button_plus = driver.find_element(By.XPATH, '//*[contains(text(),"+")]')
