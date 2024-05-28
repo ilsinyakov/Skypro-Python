@@ -9,7 +9,7 @@ class MainPageCalculator:
         self.browser.get('https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html')
 
     def set_delay(self, delay):
-        delay_field = browser.find_element(By.ID, 'delay')
+        delay_field = self.browser.find_element(By.ID, 'delay')
         delay_field.clear()
         delay_field.send_keys(delay)
 
