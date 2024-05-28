@@ -8,6 +8,7 @@ def test_calculator():
     main_page = MainPageCalculator(browser)
 
     main_page.set_delay('45')
+    sleep(2)
     main_page.click_button('7')
     sleep(2)
 
