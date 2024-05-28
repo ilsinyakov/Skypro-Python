@@ -19,8 +19,8 @@ class MainPageForm:
         email_field = self.browser.find_element(By.NAME, 'e-mail')
         email_field.send_keys('test@skypro.com')
 
-        phone_field = self.browser.find_element(By.NAME, 'phone')
-        phone_field.send_keys('+7985899998787')
+        # phone_field = self.browser.find_element(By.NAME, 'phone')
+        # phone_field.send_keys('+7985899998787')
 
         city_field = self.browser.find_element(By.NAME, 'city')
         city_field.send_keys('Москва')
