@@ -26,4 +26,4 @@ def test_shop():
     total = checkout_2_page.get_total()
     browser.quit()
 
-    assert total == '$58.2', 'Total is not correct'
+    assert total == '$58.29', 'Total is not correct'
