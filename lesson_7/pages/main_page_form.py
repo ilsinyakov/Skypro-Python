@@ -36,14 +36,7 @@ class MainPageForm:
 
         submit_button = self.browser.find_element(By.CSS_SELECTOR, '[type="submit"]')
         submit_button.click()
-
-    def is_zip_code_red(self):
-        zip_field = self.browser.find_element(By.ID, 'zip-code')
-        if zip_field.value_of_css_property('background-color') == 'rgba(248, 215, 218, 1)':
-            return True
-        else:
-            return False
-
+    
     def is_fields_green(self):
         is_true = False
         fields = self.browser.find_elements(By.XPATH, '//*[@id and not (@id="zip-code")]')
@@ -54,3 +47,10 @@ class MainPageForm:
                 is_true = False
                 return is_true
         return is_true
+        
+    def is_zip_code_red(self):
+        zip_field = self.browser.find_element(By.ID, 'zip-code')
+        if zip_field.value_of_css_property('background-color') == 'rgba(248, 215, 218, 1)':
+            return True
+        else:
+            return False
