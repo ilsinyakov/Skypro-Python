@@ -1,6 +1,5 @@
 from selenium import webdriver
 from pages.main_page_calculator import MainPageCalculator
-from time import sleep
 
 
 def test_calculator():

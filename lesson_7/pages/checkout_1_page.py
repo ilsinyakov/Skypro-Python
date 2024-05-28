@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 
+
 class Checkout1Page:
     def __init__(self, browser):
         self.browser = browser
