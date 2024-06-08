@@ -118,3 +118,24 @@ def test_change_employee():
     assert patched_employee["email"] == new_email
     assert patched_employee["url"] == new_url
     assert patched_employee["isActive"] == new_is_active
+
+
+def test_is_required_token():
+    # create new company
+    new_company = company_api.create_company(name, description)
+    new_company_id = new_company["id"]
+
+    # create new employee
+    company_id = new_company_id
+    new_employee = employee_api.add_employee(id, first_name, last_name,
+                                             middle_name, company_id, email,
+                                             employee_url, phone, birthdate,
+                                             is_active)
+    new_employee_id = new_employee["id"]
+    new_email = "new_new@gmail.com"
+    new_url = "url2.com"
+    new_is_active = False
+    status_code = employee_api.patch_employee_without_token(new_employee_id,
+                                                            new_email, new_url,
+                                                            new_is_active)
+    assert status_code == 401

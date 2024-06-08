@@ -73,3 +73,13 @@ class EmployeeApi:
         resp = requests.patch(f'{self.url}/employee/{employee_id}', json=body,
                               headers=my_headers)
         return resp.json()
+
+    def patch_employee_without_token(self, employee_id, new_email, new_url,
+                                     new_is_active):
+        body = {
+            "email": new_email,
+            "url": new_url,
+            "isActive": new_is_active
+        }
+        resp = requests.patch(f'{self.url}/employee/{employee_id}', json=body)
+        return resp.status_code
