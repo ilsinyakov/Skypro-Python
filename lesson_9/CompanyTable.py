@@ -20,12 +20,6 @@ class CompanyTable:
     def __init__(self, db_connection_string):
         self.db = create_engine(db_connection_string)
 
-    def get_companies(self):
-        return self.db.execute(self.__scripts["select"]).fetchall()
-
-    def get_active_companies(self):
-        return self.db.execute(self.__scripts["select_only_active"]).fetchall()
-
     def delete(self, id):
         self.db.execute(self.__scripts["delete_by_id"], id_to_delete=id)
 
@@ -35,7 +29,3 @@ class CompanyTable:
 
     def get_max_id(self):
         return self.db.execute(self.__scripts["get_max_id"]).fetchall()[0][0]
-
-    def get_company_by_id(self, id):
-        return self.db.execute(self.__scripts["select_by_id"],
-                               select_id=id).fetchall()

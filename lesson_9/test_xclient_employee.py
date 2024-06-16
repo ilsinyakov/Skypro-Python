@@ -1,11 +1,9 @@
 from EmployeeApi import EmployeeApi
-from CompanyApi import CompanyApi
 from CompanyTable import CompanyTable
 from EmployeeTable import EmployeeTable
 
 
 base_url = 'https://x-clients-be.onrender.com'
-company_api = CompanyApi(base_url)
 employee_api = EmployeeApi(base_url)
 
 db_connection_string = ('postgresql://x_clients_db_3fmx_user:'
@@ -16,15 +14,15 @@ company_table = CompanyTable(db_connection_string)
 employee_table = EmployeeTable(db_connection_string)
 
 # New company
-name = 'NewCompany3'
-description = 'My new company 2'
+name = 'NewCompany4'
+description = 'My new company 4'
 
 # New employee
-# id = 1
-first_name = "Ilya3"
+id = 1
+first_name = "Ilya4"
 last_name = "Ilin"
 middle_name = "Ilich"
-email = "new@test.com"
+email = "new@gmail.com"
 employee_url = "url1.com"
 phone = "+79998887766"
 birthdate = "2000-06-07T08:06:30.137Z"
@@ -42,82 +40,75 @@ def test_get_employee_list():
     new_employee_id = employee_table.get_max_id()
 
     # get employee list by API
-    employee_list = employee_api.get_employee_list(new_company_id)
+    employee_list_api = employee_api.get_employee_list(new_company_id)
+
+    # get employee list by DB
+    employee_list_db = employee_table.get_company_employees(new_company_id)
 
     # delete new employee and new company from DB
     employee_table.delete(new_employee_id)
     company_table.delete(new_company_id)
 
-    assert employee_list[0]["id"] == new_employee_id, \
+    assert employee_list_api[0]["id"] == new_employee_id, \
         "Employee's ID is not equal"
+    assert len(employee_list_api) == len(employee_list_db)
 
 
 def test_create_employee():
-    # create new company
-    new_company = company_api.create_company(name, description)
-    new_company_id = new_company["id"]
+    # create new company in DB
+    company_table.create(name, description)
+    new_company_id = company_table.get_max_id()
 
-    # create new employee
-    company_id = new_company_id
+    # create new employee by API
     new_employee = employee_api.add_employee(id, first_name, last_name,
-                                             middle_name, company_id, email,
-                                             employee_url, phone, birthdate,
-                                             is_active)
+                                             middle_name, new_company_id,
+                                             email, employee_url, phone,
+                                             birthdate, is_active)
     new_employee_id = new_employee["id"]
-    assert type(new_employee_id) is int
 
+    # get employee from DB
+    employee = employee_table.get_employee_by_id(new_employee_id)
 
-def test_is_required_fist_name():
-    # create new company
-    new_company = company_api.create_company(name, description)
-    new_company_id = new_company["id"]
+    # delete new employee and new company from DB
+    employee_table.delete(new_employee_id)
+    company_table.delete(new_company_id)
 
-    # create new employee
-    company_id = new_company_id
-    status_code = employee_api.add_employee_without_first_name(id,
-                                                               last_name,
-                                                               middle_name,
-                                                               company_id,
-                                                               email,
-                                                               employee_url,
-                                                               phone,
-                                                               birthdate,
-                                                               is_active)
-    assert status_code == 400
+    assert len(employee) == 1, "Employee was not created"
 
 
 def test_get_employee():
-    # create new company
-    new_company = company_api.create_company(name, description)
-    new_company_id = new_company["id"]
+    # create new company in DB
+    company_table.create(name, description)
+    new_company_id = company_table.get_max_id()
 
-    # create new employee
-    company_id = new_company_id
-    new_employee = employee_api.add_employee(id, first_name, last_name,
-                                             middle_name, company_id, email,
-                                             employee_url, phone, birthdate,
-                                             is_active)
-    new_employee_id = new_employee["id"]
+    # create new employee in DB
+    employee_table.create(first_name, last_name, phone, new_company_id,
+                          is_active)
+    new_employee_id = employee_table.get_max_id()
 
-    # get employee's info
+    # get employee's info by API
     employee = employee_api.get_employee(new_employee_id)
+
+    # delete new employee and new company from DB
+    employee_table.delete(new_employee_id)
+    company_table.delete(new_company_id)
+
     assert employee["id"] == new_employee_id
     assert employee["firstName"] == first_name
     assert len(employee) == 12
 
 
-def test_change_employee():
-    # create new company
-    new_company = company_api.create_company(name, description)
-    new_company_id = new_company["id"]
+def test_change_employee_by_api():
+    # create new company in DB
+    company_table.create(name, description)
+    new_company_id = company_table.get_max_id()
 
-    # create new employee
-    company_id = new_company_id
-    new_employee = employee_api.add_employee(id, first_name, last_name,
-                                             middle_name, company_id, email,
-                                             employee_url, phone, birthdate,
-                                             is_active)
-    new_employee_id = new_employee["id"]
+    # create new employee in DB
+    employee_table.create(first_name, last_name, phone, new_company_id,
+                          is_active)
+    new_employee_id = employee_table.get_max_id()
+
+    # patch employee by API
     new_email = "new_new@gmail.com"
     new_url = "url2.com"
     new_is_active = False
@@ -130,23 +121,39 @@ def test_change_employee():
     assert patched_employee["url"] == new_url
     assert patched_employee["isActive"] == new_is_active
 
+    # get patched employee's info from DB
+    employee = employee_table.get_employee_by_id(new_employee_id)
 
-def test_is_required_token():
-    # create new company
-    new_company = company_api.create_company(name, description)
-    new_company_id = new_company["id"]
+    # delete new employee and new company from DB
+    employee_table.delete(new_employee_id)
+    company_table.delete(new_company_id)
 
-    # create new employee
-    company_id = new_company_id
-    new_employee = employee_api.add_employee(id, first_name, last_name,
-                                             middle_name, company_id, email,
-                                             employee_url, phone, birthdate,
-                                             is_active)
-    new_employee_id = new_employee["id"]
+    assert employee[0][0] == new_employee_id
+    assert employee[0][8] == new_email
+    assert employee[0][10] == new_url
+    assert employee[0][1] == new_is_active
+
+
+def test_change_employee_by_db():
+    # create new company in DB
+    company_table.create(name, description)
+    new_company_id = company_table.get_max_id()
+
+    # create new employee in DB
+    employee_table.create(first_name, last_name, phone, new_company_id,
+                          is_active)
+    new_employee_id = employee_table.get_max_id()
+
+    # patch employee by DB
     new_email = "new_new@gmail.com"
     new_url = "url2.com"
     new_is_active = False
-    status_code = employee_api.patch_employee_without_token(new_employee_id,
-                                                            new_email, new_url,
-                                                            new_is_active)
-    assert status_code == 401
+    employee_table.update(new_employee_id, new_email, new_url, new_is_active)
+
+    # get employee's info by API
+    employee = employee_api.get_employee(new_employee_id)
+
+    assert employee["id"] == new_employee_id
+    assert employee["email"] == new_email
+    assert employee["avatar_url"] == new_url
+    assert employee["isActive"] == new_is_active

@@ -29,28 +29,6 @@ class EmployeeApi:
                              headers=my_headers)
         return resp.json()
 
-    def add_employee_without_first_name(self, id, last_name, middle_name,
-                                        company_id, email, employee_url,
-                                        phone, birthdate, is_active):
-        company_api = CompanyApi(self.url)
-        token = company_api.get_token("flora", "nature-fairy")
-        my_headers = {}
-        my_headers["x-client-token"] = token
-        body = {
-            "id": id,
-            "lastName": last_name,
-            "middleName": middle_name,
-            "companyId": company_id,
-            "email": email,
-            "url": employee_url,
-            "phone": phone,
-            "birthdate": birthdate,
-            "isActive": is_active
-        }
-        resp = requests.post(f'{self.url}/employee', json=body,
-                             headers=my_headers)
-        return resp.status_code
-
     def get_employee(self, employee_id):
         resp = requests.get(f'{self.url}/employee/{employee_id}')
         return resp.json()
@@ -73,13 +51,3 @@ class EmployeeApi:
         resp = requests.patch(f'{self.url}/employee/{employee_id}', json=body,
                               headers=my_headers)
         return resp.json()
-
-    def patch_employee_without_token(self, employee_id, new_email, new_url,
-                                     new_is_active):
-        body = {
-            "email": new_email,
-            "url": new_url,
-            "isActive": new_is_active
-        }
-        resp = requests.patch(f'{self.url}/employee/{employee_id}', json=body)
-        return resp.status_code
