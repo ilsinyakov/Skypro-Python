@@ -1,5 +1,5 @@
 from selenium import webdriver
-from pages.main_page_form import MainPageForm
+from pages.MainPageForm import MainPageForm
 
 
 def test_fill_form():

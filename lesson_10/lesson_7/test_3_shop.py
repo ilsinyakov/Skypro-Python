@@ -1,9 +1,9 @@
 from selenium import webdriver
-from pages.main_page_shop import MainPageShop
-from pages.catalog_page import CatalogPage
-from pages.cart_page import CartPage
-from pages.checkout_1_page import Checkout1Page
-from pages.checkout_2_page import Checkout2Page
+from pages.MainPageShop import MainPageShop
+from pages.CatalogPage import CatalogPage
+from pages.CartPage import CartPage
+from pages.Checkout1Page import Checkout1Page
+from pages.Checkout2Page import Checkout2Page
 
 
 def test_shop():
