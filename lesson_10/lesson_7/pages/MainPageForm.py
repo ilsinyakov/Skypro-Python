@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class MainPageForm:
-    def __init__(self, browser):
+    def __init__(self, browser) -> None:
         self.browser = browser
         self.browser.get('https://bonigarcia.dev/'
                          'selenium-webdriver-java/data-types.html')
