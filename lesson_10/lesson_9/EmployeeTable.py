@@ -22,10 +22,14 @@ class EmployeeTable:
                                 "WHERE id = :new_employee_id")
     }
 
-    def __init__(self, db_connection_string):
+    def __init__(self, db_connection_string: str) -> None:
         self.db = create_engine(db_connection_string)
 
-    def create(self, first_name, last_name, phone, company_id, is_active):
+    def create(self, first_name: str, last_name: str, phone: str,
+               company_id: int, is_active: bool) -> None:
+        '''
+        Create new employee
+        '''
         new_employee = {
             "first_name": first_name,
             "last_name": last_name,
@@ -35,21 +39,36 @@ class EmployeeTable:
         }
         self.db.execute(self.scripts["insert new"], new_employee)
 
-    def delete(self, id):
+    def delete(self, id: int) -> None:
+        '''
+        Delete employee by id
+        '''
         self.db.execute(self.scripts["delete employee"], new_employee_id=id)
 
-    def get_company_employees(self, new_company_id):
+    def get_company_employees(self, new_company_id: int) -> list:
+        '''
+        Get company's employees
+        '''
         return self.db.execute(self.scripts["get company's employees"],
                                company_id=new_company_id).fetchall()
 
-    def get_employee_by_id(self, id):
+    def get_employee_by_id(self, id: int) -> list:
+        '''
+        Get employee by id
+        '''
         return self.db.execute(self.scripts["get employee by id"],
                                employee_id=id).fetchall()
 
-    def get_max_id(self):
+    def get_max_id(self) -> int:
+        '''
+        Get max employee id (last created)
+        '''
         return self.db.execute(self.scripts["get max id"]).fetchall()[0][0]
 
-    def update(self, id, email, url, is_active):
+    def update(self, id: int, email: str, url: str, is_active: bool) -> None:
+        '''
+        Update employee
+        '''
         self.db.execute(self.scripts["update employee"], new_email=email,
                         new_url=url, new_is_active=is_active,
                         new_employee_id=id)

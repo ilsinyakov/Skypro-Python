@@ -17,15 +17,24 @@ class CompanyTable:
                              'AND deleted_at is null')
     }
 
-    def __init__(self, db_connection_string):
+    def __init__(self, db_connection_string: str) -> None:
         self.db = create_engine(db_connection_string)
 
-    def delete(self, id):
+    def delete(self, id: int) -> None:
+        '''
+        Delete company by id
+        '''
         self.db.execute(self.__scripts["delete_by_id"], id_to_delete=id)
 
-    def create(self, name, description):
+    def create(self, name: str, description: str) -> None:
+        '''
+        Create company
+        '''
         self.db.execute(self.__scripts["insert new"], new_name=name,
                         new_description=description)
 
-    def get_max_id(self):
+    def get_max_id(self) -> int:
+        '''
+        Get max company id (last created company)
+        '''
         return self.db.execute(self.__scripts["get_max_id"]).fetchall()[0][0]

@@ -4,11 +4,16 @@ from CompanyApi import CompanyApi
 
 
 class EmployeeApi:
-    def __init__(self, url):
+    def __init__(self, url: str) -> None:
         self.url = url
 
-    def add_employee(self, id, first_name, last_name, middle_name, company_id,
-                     email, employee_url, phone, birthdate, is_active):
+    def add_employee(self, id: int, first_name: str, last_name: str,
+                     middle_name: str, company_id: int,
+                     email: str, employee_url: str, phone: str,
+                     birthdate: str, is_active: bool) -> dict:
+        '''
+        Add new employee
+        '''
         company_api = CompanyApi(self.url)
         token = company_api.get_token("flora", "nature-fairy")
         my_headers = {}
@@ -29,16 +34,25 @@ class EmployeeApi:
                              headers=my_headers)
         return resp.json()
 
-    def get_employee(self, employee_id):
+    def get_employee(self, employee_id: int) -> dict:
+        '''
+        Get employee by id
+        '''
         resp = requests.get(f'{self.url}/employee/{employee_id}')
         return resp.json()
 
-    def get_employee_list(self, company_id):
+    def get_employee_list(self, company_id: int) -> dict:
+        '''
+        Get company's employees list
+        '''
         resp = requests.get(f'{self.url}/employee?company={company_id}')
         return resp.json()
 
-    def patch_employee(self, employee_id, new_email, new_url,
-                       new_is_active):
+    def patch_employee(self, employee_id: int, new_email: str, new_url: str,
+                       new_is_active: bool) -> dict:
+        '''
+        Patch employee
+        '''
         company_api = CompanyApi(self.url)
         token = company_api.get_token("flora", "nature-fairy")
         my_headers = {}
