@@ -182,7 +182,8 @@ def test_change_employee_by_db():
     # get employee's info by API
     employee = employee_api.get_employee(new_employee_id)
 
-    assert employee["id"] == new_employee_id
-    assert employee["email"] == new_email
-    assert employee["avatar_url"] == new_url
-    assert employee["isActive"] == new_is_active
+    with allure.step('Check patched employee info from API'):
+        assert employee["id"] == new_employee_id
+        assert employee["email"] == new_email
+        assert employee["avatar_url"] == new_url
+        assert employee["isActive"] == new_is_active
