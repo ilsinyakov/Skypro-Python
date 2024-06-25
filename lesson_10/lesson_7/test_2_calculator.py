@@ -3,6 +3,10 @@ from selenium import webdriver
 from pages.MainPageCalculator import MainPageCalculator
 
 
+@allure.title('Calculator')
+@allure.description('Test calculation with delay')
+@allure.feature('Delay')
+@allure.severity(allure.severity_level.BLOCKER)
 def test_calculator():
     browser = webdriver.Chrome()
     main_page = MainPageCalculator(browser)

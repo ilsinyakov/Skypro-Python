@@ -7,6 +7,10 @@ from pages.Checkout1Page import Checkout1Page
 from pages.Checkout2Page import Checkout2Page
 
 
+@allure.title('Shop')
+@allure.description('Test shopping')
+@allure.feature('Checkout')
+@allure.severity(allure.severity_level.CRITICAL)
 def test_shop():
     browser = webdriver.Chrome()
 

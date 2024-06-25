@@ -3,6 +3,10 @@ from selenium import webdriver
 from pages.MainPageForm import MainPageForm
 
 
+@allure.title('Form')
+@allure.description('Test fill form')
+@allure.feature('Delivery')
+@allure.severity(allure.severity_level.NORMAL)
 def test_fill_form():
     browser = webdriver.Chrome()
     with allure.step('Fill form'):
