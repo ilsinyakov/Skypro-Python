@@ -1,3 +1,4 @@
+import allure
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 
@@ -20,12 +21,14 @@ class CompanyTable:
     def __init__(self, db_connection_string: str) -> None:
         self.db = create_engine(db_connection_string)
 
+    @allure.step('Delete company from DB by id')
     def delete(self, id: int) -> None:
         '''
         Delete company by id
         '''
         self.db.execute(self.__scripts["delete_by_id"], id_to_delete=id)
 
+    @allure.step('Create company in DB')
     def create(self, name: str, description: str) -> None:
         '''
         Create company
@@ -33,6 +36,7 @@ class CompanyTable:
         self.db.execute(self.__scripts["insert new"], new_name=name,
                         new_description=description)
 
+    @allure.step('Get max company id from DB')
     def get_max_id(self) -> int:
         '''
         Get max company id (last created company)

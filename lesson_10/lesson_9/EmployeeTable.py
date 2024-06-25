@@ -1,3 +1,4 @@
+import allure
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 
@@ -25,6 +26,7 @@ class EmployeeTable:
     def __init__(self, db_connection_string: str) -> None:
         self.db = create_engine(db_connection_string)
 
+    @allure.step('Create new employee in DB')
     def create(self, first_name: str, last_name: str, phone: str,
                company_id: int, is_active: bool) -> None:
         '''
@@ -39,12 +41,14 @@ class EmployeeTable:
         }
         self.db.execute(self.scripts["insert new"], new_employee)
 
+    @allure.step('Delete employee from DB by id')
     def delete(self, id: int) -> None:
         '''
         Delete employee by id
         '''
         self.db.execute(self.scripts["delete employee"], new_employee_id=id)
 
+    @allure.step('Get employees list from DB')
     def get_company_employees(self, new_company_id: int) -> list:
         '''
         Get company's employees
@@ -52,6 +56,7 @@ class EmployeeTable:
         return self.db.execute(self.scripts["get company's employees"],
                                company_id=new_company_id).fetchall()
 
+    @allure.step('Get employee from DB by id')
     def get_employee_by_id(self, id: int) -> list:
         '''
         Get employee by id
@@ -59,12 +64,14 @@ class EmployeeTable:
         return self.db.execute(self.scripts["get employee by id"],
                                employee_id=id).fetchall()
 
+    @allure.step('Get max employee id from DB')
     def get_max_id(self) -> int:
         '''
         Get max employee id (last created)
         '''
         return self.db.execute(self.scripts["get max id"]).fetchall()[0][0]
 
+    @allure.step('Update employee in DB')
     def update(self, id: int, email: str, url: str, is_active: bool) -> None:
         '''
         Update employee

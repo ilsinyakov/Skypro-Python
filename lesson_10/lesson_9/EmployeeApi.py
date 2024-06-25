@@ -1,3 +1,4 @@
+import allure
 import requests
 
 from CompanyApi import CompanyApi
@@ -7,6 +8,7 @@ class EmployeeApi:
     def __init__(self, url: str) -> None:
         self.url = url
 
+    @allure.step('Add new employee by API')
     def add_employee(self, id: int, first_name: str, last_name: str,
                      middle_name: str, company_id: int,
                      email: str, employee_url: str, phone: str,
@@ -34,6 +36,7 @@ class EmployeeApi:
                              headers=my_headers)
         return resp.json()
 
+    @allure.step('Get employee by id by API')
     def get_employee(self, employee_id: int) -> dict:
         '''
         Get employee by id
@@ -41,6 +44,7 @@ class EmployeeApi:
         resp = requests.get(f'{self.url}/employee/{employee_id}')
         return resp.json()
 
+    @allure.step('Get employees list by API')
     def get_employee_list(self, company_id: int) -> dict:
         '''
         Get company's employees list
@@ -48,6 +52,7 @@ class EmployeeApi:
         resp = requests.get(f'{self.url}/employee?company={company_id}')
         return resp.json()
 
+    @allure.step('Patch employee by API')
     def patch_employee(self, employee_id: int, new_email: str, new_url: str,
                        new_is_active: bool) -> dict:
         '''
