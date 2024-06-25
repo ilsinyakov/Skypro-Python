@@ -1,3 +1,4 @@
+import allure
 from EmployeeApi import EmployeeApi
 from CompanyTable import CompanyTable
 from EmployeeTable import EmployeeTable
@@ -29,6 +30,10 @@ birthdate = "2000-06-07T08:06:30.137Z"
 is_active = True
 
 
+@allure.title('Get employee list')
+@allure.description('Test get employee list by API')
+@allure.feature('Employee')
+@allure.severity(allure.severity_level.NORMAL)
 def test_get_employee_list():
     # create new company in DB
     company_table.create(name, description)
@@ -49,11 +54,17 @@ def test_get_employee_list():
     employee_table.delete(new_employee_id)
     company_table.delete(new_company_id)
 
-    assert employee_list_api[0]["id"] == new_employee_id, \
-        "Employee's ID is not equal"
-    assert len(employee_list_api) == len(employee_list_db)
+    with allure.step('Check new id is in the list'):
+        assert employee_list_api[0]["id"] == new_employee_id, \
+            "Employee's ID is not equal"
+    with allure.step('Check that API list is equal DB list'):
+        assert len(employee_list_api) == len(employee_list_db)
 
 
+@allure.title('Create employee')
+@allure.description('Test create employee by API')
+@allure.feature('Employee')
+@allure.severity(allure.severity_level.CRITICAL)
 def test_create_employee():
     # create new company in DB
     company_table.create(name, description)
@@ -73,9 +84,14 @@ def test_create_employee():
     employee_table.delete(new_employee_id)
     company_table.delete(new_company_id)
 
-    assert len(employee) == 1, "Employee was not created"
+    with allure.step('Check that new employee was created in DB'):
+        assert len(employee) == 1, "Employee was not created"
 
 
+@allure.title('Get employee')
+@allure.description('Test employee by API')
+@allure.feature('Employee')
+@allure.severity(allure.severity_level.NORMAL)
 def test_get_employee():
     # create new company in DB
     company_table.create(name, description)
@@ -93,11 +109,18 @@ def test_get_employee():
     employee_table.delete(new_employee_id)
     company_table.delete(new_company_id)
 
-    assert employee["id"] == new_employee_id
-    assert employee["firstName"] == first_name
-    assert len(employee) == 12
+    with allure.step('Check that new id return from API'):
+        assert employee["id"] == new_employee_id
+    with allure.step('Check that new employee first name return from API'):
+        assert employee["firstName"] == first_name
+    with allure.step('Check response body length'):
+        assert len(employee) == 12
 
 
+@allure.title('Change employee by API')
+@allure.description('Test change employee by API')
+@allure.feature('Employee')
+@allure.severity(allure.severity_level.NORMAL)
 def test_change_employee_by_api():
     # create new company in DB
     company_table.create(name, description)
@@ -116,10 +139,11 @@ def test_change_employee_by_api():
                                                    new_email, new_url,
                                                    new_is_active
                                                    )
-    assert patched_employee["id"] == new_employee_id
-    assert patched_employee["email"] == new_email
-    assert patched_employee["url"] == new_url
-    assert patched_employee["isActive"] == new_is_active
+    with allure.step('Check patched employee info from API'):
+        assert patched_employee["id"] == new_employee_id
+        assert patched_employee["email"] == new_email
+        assert patched_employee["url"] == new_url
+        assert patched_employee["isActive"] == new_is_active
 
     # get patched employee's info from DB
     employee = employee_table.get_employee_by_id(new_employee_id)
@@ -128,12 +152,17 @@ def test_change_employee_by_api():
     employee_table.delete(new_employee_id)
     company_table.delete(new_company_id)
 
-    assert employee[0][0] == new_employee_id
-    assert employee[0][8] == new_email
-    assert employee[0][10] == new_url
-    assert employee[0][1] == new_is_active
+    with allure.step('Check patched employee info from DB'):
+        assert employee[0][0] == new_employee_id
+        assert employee[0][8] == new_email
+        assert employee[0][10] == new_url
+        assert employee[0][1] == new_is_active
 
 
+@allure.title('Change employee by DB')
+@allure.description('Test change employee by DB')
+@allure.feature('Employee')
+@allure.severity(allure.severity_level.NORMAL)
 def test_change_employee_by_db():
     # create new company in DB
     company_table.create(name, description)
